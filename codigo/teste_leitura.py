@@ -1,55 +1,76 @@
 import re
 
-#Teste
+class Queue:
+    def __init__(self):
+        self.queue = []
+
+    def enqueue(self, item):
+        self.queue.append(item)
+
+    def dequeue(self):
+        if len(self.queue) < 1:
+            return None
+        return self.queue.pop(0)
+
+    def display(self):
+        print(self.queue)
+
+    def size(self):
+        return len(self.queue)
+
+    def front(self):
+        if len(self.queue) < 1:
+            return None
+        return self.queue[0]
+
+    def is_empty(self):
+        return len(self.queue) == 0
+
 
 class Graph:
     def __init__(self):
-        # implementar dessa maneira ou com hash?
-        
-        self.graph = {}
-    
-    def add_node(self, node, neighbor):
-        if node not in self.graph:
-            self.graph[node] = [neighbor]
-        else:  # node in graph
-            self.graph[node].append(neighbor)
-    
+        self.graph_dict = {}
+
+    def add_node(self, node, neighbour):
+        if node not in self.graph_dict:
+            self.graph_dict[node] = [neighbour]
+        else:
+            self.graph_dict[node].append(neighbour)
+
     def show_graph(self):
-        i = 0
-        for node in self.graph:
-            if i == 200:
-                break
-            print(node)
-            i += 1
-    
-    def Dijkstra(self, start, goal):
-        INFINITY = 9999999999
-        shortest_distance = {}
-        track_predecessor = {}
-        unseen_nodes = graph
+        for node in self.graph_dict:
+            print('{}:{}'.format(node, self.graph_dict[node]))
+
+    def bfs(self, start):
+        queue = Queue()
+        queue.enqueue(start)
+        visited = {}
+        previous = {}
+        level = {}
         path = []
+        for node in self.graph_dict:
+            visited[node] = False
+            previous[node] = None
+            level[node] = -1
+        visited[start] = True
+        level[start] = 0
+        # print(visited)
+        # print(previous)
+        # print(level)
+
+        while not queue.is_empty():
+            node = queue.dequeue()
+            path.append(node)
+            # get the neoghbours of the current node
+            neighbours = self.graph_dict[node]
+            for neighbour in neighbours:
+                if not visited[neighbour]:
+                    queue.enqueue(neighbour)
+                    visited[neighbour] = True
+                    previous[neighbour] = node
+                    level[neighbour] = level[node] + 1
+        return previous
         
-        for node in unseen_nodes:
-            shortest_distance[node] = INFINITY
-        shortest_distance[start] = 0
-
-        while unseen_nodes:
-            min_distance_node = None
-            for node in unseen_nodes:
-                if min_distance_node is None:
-                    min_distance_node = node
-                elif shortest_distance[node] < shortest_distance[min_distance_node]:
-                    min_distance_node = node
-            print(min_distance_node)
-
-            path_option = graph[min_distance_node].items()
-
-            for child_node, weight in path_option:
-                if weight + shortest_distance[min_distance_node] < shortest_distance[child_node]:
-                    shortest_distance[child_node] = weight + \
-                        shortest_distance[min_distance_node]
-                    track_predecessor[child_node] = min_distance_node
-
 
 # será melhor gerar as funções de busca de menor caminho fora da classe graph
 # Decidir as funções, por enquanto BFS;
@@ -67,8 +88,5 @@ for i in range(len(lines)):
     node = regex.findall(lines[i])
     grafo.add_node(node[0], node[1])
     grafo.add_node(node[1], node[0])
-
-
-    
 
 data.close()
