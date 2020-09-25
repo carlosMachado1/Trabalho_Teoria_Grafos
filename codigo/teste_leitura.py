@@ -78,6 +78,8 @@ class Graph:
                     previous[neighbour] = node
                     level[neighbour] = level[node] + 1
         return previous
+    
+
 # será melhor gerar as funções de busca de menor caminho fora da classe graph
 # Decidir as funções, por enquanto BFS;
 
@@ -94,6 +96,8 @@ for i in range(len(lines)):
     node = regex.findall(lines[i])
     grafo.add_node(node[0], node[1])
     grafo.add_node(node[1], node[0])
+
+
     
 
 data.close()
