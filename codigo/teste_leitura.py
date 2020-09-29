@@ -54,6 +54,7 @@ class Graph:
             visited[node] = False
             previous[node] = None
             level[node] = -1
+            
         visited[start] = True
         level[start] = 0
 
@@ -74,9 +75,10 @@ class Graph:
         print("nó parentses: ", previous)
         
         path = []
-        while node is not None:
-            path.append(node)
-            node = previous[node]
+        start_bak = goal
+        while start_bak is not None:
+            path.append(start_bak)
+            start_bak = previous[start_bak]
         path.reverse()
         print("caminho: ", path)
     
