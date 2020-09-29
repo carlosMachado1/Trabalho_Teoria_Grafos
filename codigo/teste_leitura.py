@@ -41,49 +41,55 @@ class Graph:
         for node in self.graph_dict:
             print('{}:{}'.format(node, self.graph_dict[node]))
 
-    def bfs(self, start):
-        queue = Queue()
-        queue.enqueue(start)
+    def BFS(self, start, goal):
+        queue = Queue() # criar a fila
+        queue.enqueue(start) # começando a busca pelo elemento inicial
+        
         visited = {}
-        previous = {}
+        previous = {} #
         level = {}
-        path = []
+        bfs_traversal = []
+        
         for node in self.graph_dict:
             visited[node] = False
             previous[node] = None
             level[node] = -1
         visited[start] = True
         level[start] = 0
-        # print(visited)
-        # print(previous)
-        # print(level)
 
         while not queue.is_empty():
-            node = queue.dequeue()
-            path.append(node)
+            node = queue.dequeue() # dequeuing the node
+            bfs_traversal.append(node)
             # get the neoghbours of the current node
-            neighbours = self.graph_dict[node]
-            for neighbour in neighbours:
-                if not visited[neighbour]:
-                    queue.enqueue(neighbour)
-                    visited[neighbour] = True
-                    previous[neighbour] = node
-                    level[neighbour] = level[node] + 1
-        return previous
+            neighbors = self.graph_dict[node]
+            for neighbor in neighbors:
+                if not visited[neighbor]:
+                    queue.enqueue(neighbor)
+                    visited[neighbor] = True
+                    previous[neighbor] = node
+                    level[neighbor] = level[node] + 1
         
-
-# será melhor gerar as funções de busca de menor caminho fora da classe graph
-# Decidir as funções, por enquanto BFS;
+        print("caminho feito: ", bfs_traversal)
+        print("menor caminho até o ponto de parada: ", level[goal])
+        print("nó parentses: ", previous)
+        
+        path = []
+        while node is not None:
+            path.append(node)
+            node = previous[node]
+        path.reverse()
+        print("caminho: ", path)
+    
 
 DATA_PATH = "dataset.dat"
-data = open(DATA_PATH, "r")
+DATA_PATH2 = "teste"
+data = open(DATA_PATH2, "r")
 grafo = Graph()
 
 lines = data.readlines() # a list conteining all lines of our data set
 regex = re.compile(r"[\w]+") # tratamento de string com regex
 
 # preenchemos nosso grafo
-
 for i in range(len(lines)):
     node = regex.findall(lines[i])
     grafo.add_node(node[0], node[1])
