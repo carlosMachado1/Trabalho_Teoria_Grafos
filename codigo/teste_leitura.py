@@ -1,4 +1,8 @@
 import re
+import networkx as nx
+import matplotlib.pyplot as plt
+import time
+
 
 class Queue:
     def __init__(self):
@@ -27,6 +31,9 @@ class Queue:
         return len(self.queue) == 0
 
 
+
+
+
 class Graph:
     def __init__(self):
         self.graph_dict = {}
@@ -38,6 +45,7 @@ class Graph:
             self.graph_dict[node].append(neighbour)
 
     def show_graph(self):
+        print(self.graph_dict)
         for node in self.graph_dict:
             print('{}:{}'.format(node, self.graph_dict[node]))
 
@@ -70,9 +78,9 @@ class Graph:
                     previous[neighbor] = node
                     level[neighbor] = level[node] + 1
         
-        print("caminho feito: ", bfs_traversal)
-        print("menor caminho até o ponto de parada: ", level[goal])
-        print("nó parentses: ", previous)
+        #print("caminho feito: ", bfs_traversal)
+        print("Arestas percorridas até o ponto de parada: ", level[goal])
+        #print("nó parentses: ", previous)
         
         path = []
         start_bak = goal
@@ -81,11 +89,16 @@ class Graph:
             start_bak = previous[start_bak]
         path.reverse()
         print("caminho: ", path)
-    
+        return path
+
+
+
+
+
 
 DATA_PATH = "dataset.dat"
-DATA_PATH2 = "teste"
-data = open(DATA_PATH2, "r")
+DATA_PATH2 = "teste.dat"
+data = open(DATA_PATH, "r")
 grafo = Graph()
 
 lines = data.readlines() # a list conteining all lines of our data set
@@ -97,4 +110,37 @@ for i in range(len(lines)):
     grafo.add_node(node[0], node[1])
     grafo.add_node(node[1], node[0])
 
+
+
+
+# Iniciando o Algoritmo baseado em BFS
+
+start_bfs = time.time()
+caminho_bfs = grafo.BFS("TelaLigouCercou","tulioalmeidars")
+
+
+
+
+
+graph_bfs = nx.Graph()
+for i in range (1,len(caminho_bfs)):
+    graph_bfs.add_edge(caminho_bfs[i-1],caminho_bfs[i])
+
+nx.draw(graph_bfs , with_labels = True)
+plt.show()
+
+end_bfs = time.time()
+print( "Tempo de execução do Algoritmo BFS: ", end_bfs - start_bfs)
+
+
+
+
+
+
+
+
 data.close()
+
+
+
+

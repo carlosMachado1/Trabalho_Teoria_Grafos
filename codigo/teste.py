@@ -110,7 +110,7 @@ class Grafo:
             print("{}:{}".format(node, dicionario[node]))
 
 
-DATA_PATH2 = "teste"
+DATA_PATH2 = "teste.py"
 data = open(DATA_PATH2, "r")
 grafo = Grafo()
 
